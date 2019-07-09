@@ -4,6 +4,8 @@
 
 * [Instructions](#instructions)
 * [Contributing](#contributing)
+* [General](#general)
+* [How The Game Works](#howthegameworks)
 
 ## Instructions
 
@@ -18,3 +20,22 @@ For specific, detailed instructions, look at the project instructions in the [Ud
 This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## General
+
+Udacity Front-End Developer Nanodegree Memory game Project.
+
+## How The Game Works
+
+The game consists of 16 cards arranged in a grid. There are 8 different pairs of cards. Every card has different symbol. Cards are mixed randomly with the symbol down.
+Game rules are simple: you need to open two hidden cards and find the ones that match.
+
+The game have stars rating:
+
+3 Stars - Are awarded if the game is completed under 15 moves.
+2 Stars - Are awarded if the game is completed from 15 to 22 moves.
+1 Star - Is awarded if the game is completed in 23 moves or more.
+
+The game ends when player has matched all the cards.
+
+Player can restart the game anytime by pressing circular 'Restart' button.
