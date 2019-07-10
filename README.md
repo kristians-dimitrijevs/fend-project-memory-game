@@ -32,9 +32,12 @@ Game rules are simple: you need to open two hidden cards and find the ones that 
 
 The game have stars rating:
 
-3 Stars - Are awarded if the game is completed under 15 moves.
-2 Stars - Are awarded if the game is completed from 15 to 22 moves.
-1 Star - Is awarded if the game is completed in 23 moves or more.
+3 stars are awarded if the game is completed under 15 moves.
+
+2 stars are awarded if the game is completed from 15 to 22 moves.
+
+1 star is awarded if the game is completed in 23 moves or more.
+
 
 The game ends when player has matched all the cards.
 
