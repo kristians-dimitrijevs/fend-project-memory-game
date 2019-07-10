@@ -11,7 +11,12 @@ const cards = ['fa-diamond', 'fa-diamond',
                'fa-bomb', 'fa-bomb',
               ];
 
-function cardOrder(card) {
+/**
+ * Returns html for a single card
+ * @param  {string} card card that goes in html
+ * @return {html}      created html for card
+ */
+function createCard(card) {
   return `<li class="card"><i class="fa ${card}"></i></li>`
 }
 
@@ -24,7 +29,7 @@ function cardOrder(card) {
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 /**
- * [shuffle description]
+ * Shuffles cards for deck
  * @param  {array} array cards to shuffle
  * @return {array}       shuffled cards
  */
@@ -54,7 +59,9 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-// Starts the game from beggining. Shuffles cards and places them randomly.
+/**
+ * Starts and restarts the game
+ */
 function startGame() {
   pick = 0;
   currentCard = null;
@@ -66,7 +73,7 @@ function startGame() {
 
   let deck = document.querySelector('.deck');
   let cardHTML = shuffle(cards).map(function(card) {
-    return cardOrder(card);
+    return createCard(card);
   });
 
   moveCounter(0);
@@ -85,6 +92,12 @@ function startGame() {
   }
 };
 
+/**
+ * Main event handler
+ * Contains logic for showing cards, checking if they match
+ * and marking as matched or closing
+ * @param  {event} e  click event which is triggered upon clicking the card
+ */
 function clickCard(e) {
   if (blocked) return false;
   if (pick > 0 && currentCard !== e.target) {
@@ -107,7 +120,8 @@ function clickCard(e) {
       };
     };
 
-    if (newCardType == oldCardType) { // Compares opened cards and if the are matching adds 'match' class, if not deletes 'open, show' classes.
+    // Compares opened cards and if the are matching adds 'match' class, if not deletes 'open, show' classes.
+    if (newCardType == oldCardType) {
       e.target.classList.add('match');
       currentCard.classList.add('match');
       currentCard.classList.remove('open', 'show');
@@ -115,7 +129,8 @@ function clickCard(e) {
       currentCard = null;
       pick = 0;
       cardsOpen += 2;
-      if(cardsOpen >= maxCards) { // Checks if all cards are open. If all are open then stops timer and shows Congratulations window.
+      // Checks if all cards are open. If all are open then stops timer and shows Congratulations window.
+      if(cardsOpen >= maxCards) {
         clearInterval(interval);
       }
     } else {
@@ -142,7 +157,10 @@ function clickCard(e) {
   }
 };
 
-function showCongratulations() { // Creates Congratulations window.
+/**
+ * Shows the congratulations modal for completing the game
+ */
+function showCongratulations() {
 
   let finalTime = timer.innerHTML;
 
@@ -161,8 +179,11 @@ function showCongratulations() { // Creates Congratulations window.
   });
 };
 
-// Restarts the game.
-function reset() {
+/**
+ * Handler for "Play again" button in modal
+ * Hides the modal and restarts the game
+ */
+function playAgain() {
   completed.classList.remove('show');
   startGame();
 };
@@ -180,7 +201,9 @@ let stars = document.querySelectorAll('.fa-star');
 const completed = document.querySelector('.completed');
 const closeIcon = document.querySelector('.close');
 
-// Starts the timer for game.
+/**
+ * Sets up timer for the game.
+*/
 function startTimer(){
   interval = setInterval(function(){
     timer.innerHTML = minute+" mins "+second+" secs";
@@ -197,7 +220,10 @@ function startTimer(){
 };
 
 
-// Shows how many moves are made
+/**
+ * Counts or resets the moves
+ * @param  {number} pass 0 to reset counter, pass nothing to increment by 1
+ *  */
 function moveCounter(m = null){
   if (m !== null)
   {
@@ -216,7 +242,9 @@ function moveCounter(m = null){
   starRating();
 }
 
-// Creates Star rating based on moves
+/**
+ * Calculates and shows how many stars player will get for completing the game
+ */
 function starRating() {
 
   let showStars = 3;
@@ -233,6 +261,7 @@ function starRating() {
   }
 }
 
+// hook into document ready event
 document.addEventListener("DOMContentLoaded", function(event) {
   startGame();
 });
