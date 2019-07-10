@@ -102,30 +102,13 @@ function clickCard(e) {
   if (blocked) return false;
   if (pick > 0 && currentCard !== e.target) {
 
-    const newClasses = e.target.getElementsByClassName('fa')[0].classList;
-
-    let newCardType = null;
-    for (let i = 0; i < newClasses.length; i++) {
-      if (newClasses[i].substring(0, 3) == 'fa-') {
-        newCardType = newClasses[i];
-      };
-    };
-
-    const oldClasses = currentCard.getElementsByClassName('fa')[0].classList;
-
-    let oldCardType = null;
-    for (let i = 0; i < oldClasses.length; i++) {
-      if (oldClasses[i].substring(0, 3) == 'fa-') {
-        oldCardType = oldClasses[i];
-      };
-    };
+    const newCardType = getCardType(e.target);
+    const oldCardType = getCardType(currentCard);
 
     // Compares opened cards and if the are matching adds 'match' class, if not deletes 'open, show' classes.
     if (newCardType == oldCardType) {
-      e.target.classList.add('match');
-      currentCard.classList.add('match');
-      currentCard.classList.remove('open', 'show');
-      currentCard = e.target;
+      matchCard(e.target);
+      matchCard(currentCard);
       currentCard = null;
       pick = 0;
       cardsOpen += 2;
@@ -134,12 +117,12 @@ function clickCard(e) {
         clearInterval(interval);
       }
     } else {
-      e.target.classList.add('open', 'show', 'nomatch');
-      currentCard.classList.add('nomatch');
+      errorCard(e.target);
+      errorCard(currentCard);
       blocked = true;
       setTimeout(function(){
-        e.target.classList.remove('open', 'show', 'nomatch');
-        currentCard.classList.remove('open', 'show', 'nomatch');
+        closeCard(e.target);
+        closeCard(currentCard);
         currentCard = null;
         pick = 0;
         blocked = false;
@@ -151,10 +134,60 @@ function clickCard(e) {
     }
 
   } else {
-    e.target.classList.add('open', 'show');
+    openCard(e.target);
     currentCard = e.target;
     pick = 1;
   }
+};
+
+/**
+ * Obtain card type (corresponds to the object it is showing when opened)
+ * @param  {HTMLElement} cardElement  card to inspect
+ * @return {string}                   card type as full class name (includes "fa-")
+ */
+function getCardType (cardElement) {
+  const cardClasses = cardElement.getElementsByClassName('fa')[0].classList;
+
+  let cardType = null;
+  for (let i = 0; i < cardClasses.length; i++) {
+    if (cardClasses[i].substring(0, 3) == 'fa-') {
+      cardType = cardClasses[i];
+    };
+  }
+  return cardType;
+}
+
+/**
+ * Marks the card as matched
+ * @param  {HTMLElement} cardElement card to mark
+ */
+function matchCard(cardElement) {
+  cardElement.classList.add('match');
+  cardElement.classList.remove('open', 'show');
+};
+
+/**
+ * Marks the card as open
+ * @param  {HTMLElement} cardElement card to mark
+ */
+function openCard(cardElement) {
+  cardElement.classList.add('open', 'show');
+};
+
+/**
+ * Marks the card as non-matching card (error)
+ * @param  {HTMLElement} cardElement card to mark
+ */
+function errorCard(cardElement) {
+  cardElement.classList.add('open', 'show', 'nomatch');
+};
+
+/**
+ * Marks the card as closed (hides content)
+ * @param  {HTMLElement} cardElement card to mark
+ */
+function closeCard(cardElement) {
+  cardElement.classList.remove('open', 'show', 'nomatch');
 };
 
 /**
