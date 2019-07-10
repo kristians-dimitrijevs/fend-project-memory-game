@@ -29,18 +29,18 @@ function cardOrder(card) {
  * @return {array}       shuffled cards
  */
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-    return array;
-}
+  return array;
+};
 
 
 /*
@@ -85,87 +85,87 @@ function startGame() {
   }
 };
 
- function clickCard(e) {
-     if (blocked) return false;
-     if (pick > 0 && currentCard !== e.target) {
+function clickCard(e) {
+  if (blocked) return false;
+  if (pick > 0 && currentCard !== e.target) {
 
-       const newClasses = e.target.getElementsByClassName('fa')[0].classList;
+    const newClasses = e.target.getElementsByClassName('fa')[0].classList;
 
-       let newCardType = null;
-       for (let i = 0; i < newClasses.length; i++) {
-         if (newClasses[i].substring(0, 3) == 'fa-') {
-           newCardType = newClasses[i];
-         };
-       };
+    let newCardType = null;
+    for (let i = 0; i < newClasses.length; i++) {
+      if (newClasses[i].substring(0, 3) == 'fa-') {
+        newCardType = newClasses[i];
+      };
+    };
 
-       const oldClasses = currentCard.getElementsByClassName('fa')[0].classList;
+    const oldClasses = currentCard.getElementsByClassName('fa')[0].classList;
 
-       let oldCardType = null;
-       for (let i = 0; i < oldClasses.length; i++) {
-         if (oldClasses[i].substring(0, 3) == 'fa-') {
-           oldCardType = oldClasses[i];
-         };
-       };
+    let oldCardType = null;
+    for (let i = 0; i < oldClasses.length; i++) {
+      if (oldClasses[i].substring(0, 3) == 'fa-') {
+        oldCardType = oldClasses[i];
+      };
+    };
 
-       if (newCardType == oldCardType) { // Compares opened cards and if the are matching adds 'match' class, if not deletes 'open, show' classes.
-         e.target.classList.add('match');
-         currentCard.classList.add('match');
-         currentCard.classList.remove('open', 'show');
-         currentCard = e.target;
-         currentCard = null;
-         pick = 0;
-         cardsOpen += 2;
-         if(cardsOpen >= maxCards) { // Checks if all cards are open. If all are open then stops timer and shows Congratulations window.
-           clearInterval(interval);
-         }
-       } else {
-         e.target.classList.add('open', 'show', 'nomatch');
-         currentCard.classList.add('nomatch');
-         blocked = true;
-         setTimeout(function(){
-           e.target.classList.remove('open', 'show', 'nomatch');
-           currentCard.classList.remove('open', 'show', 'nomatch');
-           currentCard = null;
-           pick = 0;
-           blocked = false;
-         }, 1000);
-       };
-       moveCounter();
-       if(cardsOpen >= maxCards) {
-          setTimeout(showCongratulations, 750);
-       }
+    if (newCardType == oldCardType) { // Compares opened cards and if the are matching adds 'match' class, if not deletes 'open, show' classes.
+      e.target.classList.add('match');
+      currentCard.classList.add('match');
+      currentCard.classList.remove('open', 'show');
+      currentCard = e.target;
+      currentCard = null;
+      pick = 0;
+      cardsOpen += 2;
+      if(cardsOpen >= maxCards) { // Checks if all cards are open. If all are open then stops timer and shows Congratulations window.
+        clearInterval(interval);
+      }
+    } else {
+      e.target.classList.add('open', 'show', 'nomatch');
+      currentCard.classList.add('nomatch');
+      blocked = true;
+      setTimeout(function(){
+        e.target.classList.remove('open', 'show', 'nomatch');
+        currentCard.classList.remove('open', 'show', 'nomatch');
+        currentCard = null;
+        pick = 0;
+        blocked = false;
+      }, 1000);
+    };
+    moveCounter();
+    if(cardsOpen >= maxCards) {
+      setTimeout(showCongratulations, 750);
+    }
 
-     } else {
+  } else {
+    e.target.classList.add('open', 'show');
+    currentCard = e.target;
+    pick = 1;
+  }
+};
 
-       e.target.classList.add('open', 'show');
-       currentCard = e.target;
-       pick = 1;
-     }
- }
+function showCongratulations() { // Creates Congratulations window.
 
- function showCongratulations() { // Creates Congratulations window.
+  let finalTime = timer.innerHTML;
 
-     let finalTime = timer.innerHTML;
+  completed.classList.add('show');
 
-     completed.classList.add('show');
+  let starRating = document.querySelector('.stars').innerHTML;
 
-     let starRating = document.querySelector('.stars').innerHTML;
+  // Shows how many stars you got, moves and time it took to complete the game
+  document.getElementsByClassName('final-moves')[0].innerHTML = moves;
+  document.getElementsByClassName('star-rating')[0].innerHTML = starRating;
+  document.getElementsByClassName('total-time')[0].innerHTML = finalTime;
 
-// Shows how many stars you got, moves and time it took to complete the game
-     document.getElementsByClassName('final-moves')[0].innerHTML = moves;
-     document.getElementsByClassName('star-rating')[0].innerHTML = starRating;
-     document.getElementsByClassName('total-time')[0].innerHTML = finalTime;
+  // Closes congratulations window.
+  closeIcon.addEventListener('click', function(e) {
+    completed.classList.remove('show');
+  });
+};
 
-// Closes congratulations window.
-     closeIcon.addEventListener('click', function(e) {
-       completed.classList.remove('show');
-     });
- }
 // Restarts the game.
- function reset() {
-   completed.classList.remove('show');
-   startGame();
- }
+function reset() {
+  completed.classList.remove('show');
+  startGame();
+};
 
 let pick = 0;
 let currentCard = null;
@@ -182,20 +182,19 @@ const closeIcon = document.querySelector('.close');
 
 // Starts the timer for game.
 function startTimer(){
-    interval = setInterval(function(){
-        timer.innerHTML = minute+" mins "+second+" secs";
-        second++;
-        if(second == 60){
-            minute++;
-            second = 0;
-        }
-        if(minute == 60){
-            hour++;
-            minute = 0;
-        }
-    },1000);
-
-}
+  interval = setInterval(function(){
+    timer.innerHTML = minute+" mins "+second+" secs";
+    second++;
+    if(second == 60){
+      minute++;
+      second = 0;
+    }
+    if(minute == 60){
+      hour++;
+      minute = 0;
+    }
+  },1000);
+};
 
 
 // Shows how many moves are made
@@ -209,13 +208,13 @@ function moveCounter(m = null){
 
   document.getElementById('movesCounter').innerHTML = moves;
   if(moves == 1){
-      second = 0;
-      minute = 0;
-      hour = 0;
-      startTimer();
+    second = 0;
+    minute = 0;
+    hour = 0;
+    startTimer();
   }
   starRating();
-};
+}
 
 // Creates Star rating based on moves
 function starRating() {
@@ -226,11 +225,11 @@ function starRating() {
   if (moves > 22) showStars--;
   // setting rates based on moves
   for( i= 0; i < 3; i++){
-      if(i + 1 > showStars){
-          stars[i].style.visibility = "collapse";
-      } else {
-          stars[i].style.visibility = "visible";
-      }
+    if(i + 1 > showStars){
+      stars[i].style.visibility = "collapse";
+    } else {
+      stars[i].style.visibility = "visible";
+    }
   }
 }
 
